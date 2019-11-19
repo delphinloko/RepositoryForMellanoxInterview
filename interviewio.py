@@ -6,6 +6,13 @@ import multiprocessing
 import os
 import sys
 from datetime import datetime
+from statistics import mean
+
+CONST_DEFAULT_NUMBER_OF_FILES = 1
+CONST_DEFAULT_SIZE = 18
+CONST_DEFAULT_DIR = "DefaultFolder"
+CONST_DEFAULT_TEXT = "Nothing was passed"
+CONST_DEFAULT_PARALLELS = 1
 
 
 def main():
@@ -32,7 +39,7 @@ def main():
     print("Create", number_of_files, "files in", path, "in", number_of_parallel, "threads")
     print("Min:", min(file_creation_time_array), "ms", end=" ")
     print("Max:", max(file_creation_time_array), "ms", end=" ")
-    print("Avr:", round(average / len(file_creation_time_array)), "ms", end=" ")
+    print("Avr:", mean(file_creation_time_array), "ms", end=" ")
     print("Total:", delta.seconds * 1000000 + delta.microseconds, "ms")
 
 
@@ -56,7 +63,7 @@ def create_file(file_name):
 
     after = datetime.now()
     delta = after - before
-    
+
     return int(delta.seconds * 1000000 + delta.microseconds)
 
 
@@ -74,11 +81,11 @@ def get_namespace():
 
 def create_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-files', default=1, required=True, type=int)
-    parser.add_argument('-size', default="1", required=True, type=int)
-    parser.add_argument('-dir', default="/", required=True, type=str)
-    parser.add_argument('-P', default=" ", required=True, type=str)
-    parser.add_argument('-parallel', default=1, type=int)
+    parser.add_argument('-files', default=CONST_DEFAULT_NUMBER_OF_FILES, type=int)
+    parser.add_argument('-size', default=CONST_DEFAULT_SIZE, type=int)
+    parser.add_argument('-dir', default=CONST_DEFAULT_DIR, type=str)
+    parser.add_argument('-P', default=CONST_DEFAULT_TEXT, type=str)
+    parser.add_argument('-parallel', default=CONST_DEFAULT_PARALLELS, type=int)
     return parser
 
 
