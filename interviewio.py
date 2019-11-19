@@ -44,24 +44,19 @@ def create_file(file_name):
     path = args.dir
     file_path = os.path.join(path, file_name)
 
-    # check that pattern place in file_size even times
-    amount = file_size / len(file_pattern)
+    amount = file_size // len(file_pattern)
+    difference_in_file_size = file_size - len(file_pattern) * amount
 
     before = datetime.now()
-    if amount % 1 == 0:
-        with open(file_path, "w") as somefile:
-            somefile.write(file_pattern * file_size)
-            somefile.close()
-    # if no, write pattern into file non integer times to make file size equals file_size
-    else:
-        difference_in_file_size = int(file_size - amount // 1 * len(file_pattern))
-        with open(file_path, "w") as somefile:
-            somefile.write(file_pattern * int(amount // 1))
-            for i in range(difference_in_file_size):
-                somefile.write(file_pattern[i])
-            somefile.close()
+
+    with open(file_path, "w") as somefile:
+        somefile.write(file_pattern * amount)
+        somefile.write(file_pattern[:difference_in_file_size])
+        somefile.close()
+
     after = datetime.now()
     delta = after - before
+    
     return int(delta.seconds * 1000000 + delta.microseconds)
 
 
