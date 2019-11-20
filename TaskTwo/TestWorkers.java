@@ -10,12 +10,7 @@ public class TestWorkers {
 
         final CountDownLatch counter = new CountDownLatch(2);
         final Runnable runnable = () -> {
-//            for (int i = 0; i < 1000; i++) {
-//                var++;
-//                System.out.println(var);
-//            }
             IntStream.range(0,10).forEach(value -> var++);
-//            IntStream.range(0,1000).forEach(value -> var++);
             counter.countDown();
         };
 
